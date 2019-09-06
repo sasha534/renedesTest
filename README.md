@@ -58,4 +58,4 @@ PS: Самое важное это не внешний вид приложени
 
 Будем смотреть на Entities, Controllers, twig templates, Services(если будут)
 
-
+php bin/console doctrine:database:create
