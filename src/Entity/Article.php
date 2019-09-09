@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
  */
@@ -33,12 +34,13 @@ class Article
 
     /**
      * @ORM\Column(type="datetime")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $date_update;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="id")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
 
