@@ -26,7 +26,7 @@ class ArticleController extends AbstractController
     {
         $article = $this->getDoctrine()->getRepository(Article::class);
         $posts = $article->findAll();
-        var_dump($posts);die();
+//        var_dump($posts);die();
 
 
 
