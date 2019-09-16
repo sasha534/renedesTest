@@ -2,32 +2,43 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Article;
 use App\Entity\User;
-use Doctrine\ORM\EntityManager;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use FOS\UserBundle\Model\UserManagerInterface as UserManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
-class AppFixtures extends Fixture
+
+class AppFixtures extends Fixture implements OrderedFixtureInterface
 {
-//    public const TESTER_1 = 'tester1';
-//    public const TESTER_2 = 'tester2';
-//    public const TESTER_3 = 'tester3';
-
     public function load(ObjectManager $manager)
     {
+
         for ($i = 1; $i < 30; $i++) {
-            $product = new Article();
-            $product->setTitle('Titile '.$i);
-            $product->setContent('Content' .$i);
-            $product->setDateCreate(new \DateTime(sprintf('-%d days', rand(1, 100))));
-            $product->setDateUpdate(new \DateTime(sprintf('-%d days', rand(1, 100))));
-//            $this->setReference(self::TESTER_1, $product);
-//            $product->setUserId($this->addReference(self::TESTER_1, $product));
-            $manager->persist($product);
+            $article = new Article();
+            /** @var User $user */
+            $user = $this->getReference('App\Entity\User');
+            $article->setUser($user);
+
+            $article->setTitle('Titile '.$i);
+            $article->setContent('Content' .$i);
+            $article->setDateCreate(new \DateTime(sprintf('-%d days', rand(1, 100))));
+            $article->setDateUpdate(new \DateTime(sprintf('-%d days', rand(1, 100))));
+//            $this->setReference(self::TESTER_1, $article);
+//            $article->setUserId($this->addReference(self::TESTER_1, $article));
+            $user->addArticle($article);
+            $manager->persist($article);
         }
         $manager->flush();
     }
+
+    /**
+     * @return integer
+     */
+
+    public function getOrder()
+    {
+        return 1;
+    }
+
 }

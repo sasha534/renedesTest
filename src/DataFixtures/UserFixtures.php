@@ -11,6 +11,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
+
 class UserFixtures extends Fixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
@@ -41,6 +42,7 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface, Container
         $user->setEnabled(true);
         $user->setPlainPassword('admin_pass');
         $manager->updateUser($user);
+//        $this->setReference('user', $user);
         unset($user);
 
         $faker = \Faker\Factory::create();
@@ -54,7 +56,9 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface, Container
             $user->setEnabled(true);
             $user->setPlainPassword('pass');
             $manager->updateUser($user);
-            $this->addReference('user.demo_'.$i, $user);
+            $this->setReference('user', $user);
+            $this->addReference('user', $user);
+
         }
     }
 
@@ -63,6 +67,6 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface, Container
      */
     function getOrder()
     {
-        return 10;
+        return 1;
     }
 }
