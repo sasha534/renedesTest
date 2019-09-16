@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use \DateTime;
 
 
 /**
@@ -29,7 +30,7 @@ class Article
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\DateTime()
+     *
      */
     private $date_create;
 
@@ -41,7 +42,7 @@ class Article
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="articles")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
 

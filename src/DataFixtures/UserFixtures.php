@@ -11,7 +11,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
-class UserFixtures extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class UserFixtures extends Fixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
