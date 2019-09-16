@@ -28,7 +28,13 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-        $this->articles = new ArrayCollection();
+//        $this->articles = new ArrayCollection();
+        $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        $this->enabled = false;
+        $this->locked = false;
+        $this->expired = false;
+        $this->roles = array();
+        $this->credentialsExpired = false;
     }
 
     /**

@@ -29,18 +29,19 @@ class Article
 
     /**
      * @ORM\Column(type="datetime")
-     * @ORM\JoinColumn(nullable=false)
+     * @Assert\DateTime()
      */
     private $date_create;
 
     /**
      * @ORM\Column(type="datetime")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $date_update;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="articles")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
@@ -109,15 +110,15 @@ class Article
         return $this;
     }
 
-//    public function getUserId(): ?int
-//    {
-//        return $this->user;
-//    }
-//
-//    public function setUserId(int $user): self
-//    {
-//        $this->user = $user;
-//
-//        return $this;
-//    }
+    public function getUserId(): ?int
+    {
+        return $this->user;
+    }
+
+    public function setUserId(int $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
 }
