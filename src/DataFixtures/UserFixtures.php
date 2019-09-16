@@ -41,8 +41,12 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface, Container
         $user->setRoles(array('ROLE_SUPER_ADMIN'));
         $user->setEnabled(true);
         $user->setPlainPassword('admin_pass');
+
+        $this->setReference('user', $user);
+        $this->addReference('user', $user);
+
         $manager->updateUser($user);
-//        $this->setReference('user', $user);
+
         unset($user);
 
         $faker = \Faker\Factory::create();
@@ -55,9 +59,11 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface, Container
             $user->setRoles(array('ROLE_USER'));
             $user->setEnabled(true);
             $user->setPlainPassword('pass');
-            $manager->updateUser($user);
+
             $this->setReference('user', $user);
             $this->addReference('user', $user);
+
+            $manager->updateUser($user);
 
         }
     }

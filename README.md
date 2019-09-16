@@ -60,3 +60,5 @@ PS: Самое важное это не внешний вид приложени
 
 1) php bin/console doctrine:database:create
 2) php bin/console doctrine:schema:update --force
+3) php bin/console doctrine:fixtures:load
+

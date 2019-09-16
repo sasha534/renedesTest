@@ -17,7 +17,7 @@ class AppFixtures extends Fixture implements OrderedFixtureInterface
         for ($i = 1; $i < 30; $i++) {
             $article = new Article();
             /** @var User $user */
-            $user = $this->getReference('App\Entity\User');
+            $user = $this->getReference('user');   //user
             $article->setUser($user);
 
             $article->setTitle('Titile '.$i);
