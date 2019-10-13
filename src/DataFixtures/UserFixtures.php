@@ -42,10 +42,12 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface, Container
         $user->setEnabled(true);
         $user->setPlainPassword('admin_pass');
 
-        $this->setReference('user', $user);
-        $this->addReference('user', $user);
+//        $this->setReference('user', $user);
+
 
         $manager->updateUser($user);
+
+        $this->addReference('user', $user);
 
         unset($user);
 
@@ -60,10 +62,12 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface, Container
             $user->setEnabled(true);
             $user->setPlainPassword('pass');
 
-            $this->setReference('user', $user);
+            $manager->updateUser($user);
+
+//            $this->setReference('user', $user);
             $this->addReference('user', $user);
 
-            $manager->updateUser($user);
+
 
         }
     }
