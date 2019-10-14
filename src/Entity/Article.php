@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-//use App\Entity\User;
 
 
 /**
@@ -32,9 +31,25 @@ class Article
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="articles")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="article_id")
+     */
+    private $comment;
+
+    public function getComment(): ?Comment
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?Comment $comment): self
+    {
+        $this->user = $comment;
+
+        return $this;
+    }
 
     public function getUser(): ?User
     {

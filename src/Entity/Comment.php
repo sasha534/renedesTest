@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
  */
@@ -27,6 +28,11 @@ class Comment
      * @ORM\Column(type="text")
      */
     private $content;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="comment")
+     */
+    private $article;
 
     public function getId(): ?int
     {

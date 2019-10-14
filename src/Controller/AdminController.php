@@ -15,16 +15,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class AdminController extends Controller
 {
     /**
-     * @Route("/cabinet", name="admin")
-     */
-    public function index()
-    {
-        return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminController',
-        ]);
-    }
-
-    /**
      * @Route("/article-create", name="create_article")
      */
     public function createArticle(Request $request, ValidatorInterface $validator)
@@ -40,11 +30,11 @@ class AdminController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {
-
                 $article = $form->getData();
-                $article->setTitle('Keyboard');
-                $article->setContent('SOme content 1111111111111111');
+//                $article->setTitle('Keyboard');
+//                $article->setContent('SOme content 1111111111111111');
                 $article->setUserId($this->getUser());
+
                 $entityManager->persist($article);
                 $entityManager->flush();
 
