@@ -18,16 +18,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class CommentController extends AbstractController
 {
     /**
-     * @Route("/comment", name="comment")
-     */
-    public function index()
-    {
-        return $this->render('comment/index.html.twig', [
-            'controller_name' => 'CommentController',
-        ]);
-    }
-
-    /**
      * @Route("/add-comment", name="add_comment")
      */
     public function addComment(Request $request, ValidatorInterface $validator)
@@ -35,19 +25,20 @@ class CommentController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $comment = new Comment();
         $form = $this->createFormBuilder($comment)
-            ->add('title', TextType::class)
+            ->add('authorName', TextType::class)
             ->add('content', TextType::class)
             ->add('save', SubmitType::class, array('label' => 'Save Comment'))
             ->getForm();
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid())
         {
 
             $comment = $form->getData();
-//            $comment->setTitle('Keyboard');
-//            $comment->setContent('SOme content 1111111111111111');
-            $comment->setUserId($this->getUser());
+
+            $comment->setArticle($comment->getArticle());
+
             $entityManager->persist($comment);
             $entityManager->flush();
 

@@ -31,8 +31,6 @@ class AdminController extends Controller
         if ($form->isSubmitted() && $form->isValid())
         {
                 $article = $form->getData();
-//                $article->setTitle('Keyboard');
-//                $article->setContent('SOme content 1111111111111111');
                 $article->setUserId($this->getUser());
 
                 $entityManager->persist($article);
@@ -71,9 +69,6 @@ class AdminController extends Controller
             'id' => $article->getId()
         ]);
     }
-
-
-
 
 
 }

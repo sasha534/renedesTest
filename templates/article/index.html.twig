@@ -1,14 +1,14 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Hello ArticleController!{% endblock %}
+{% block title %}{{ article.title }}{% endblock %}
 
 {% block body %}
-
-<div class="example-wrapper">
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'D:/OSPanel/domains/renedesTest/src/Controller/ArticleController.php'|file_link(0) }}">src/Controller/ArticleController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'D:/OSPanel/domains/renedesTest/templates/article/index.html.twig'|file_link(0) }}">templates/article/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+            <div class="blog-post">
+                <h2 class="blog-post-title">{{ article.title }}</h2>
+                <p>{{ article.content }}</p>
+            </div>
+        </div>
+    </div>
 {% endblock %}

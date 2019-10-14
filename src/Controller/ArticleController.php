@@ -15,9 +15,9 @@ use Symfony\Bundle\FrameworkBundle\Controller;
 class ArticleController extends AbstractController
 {
     /**
-     * @Route("/article", name="article")
+     * @Route("/articles-list", name="articles_list")
      */
-    public function index(Request $request, PaginatorInterface $paginator)
+    public function articlesList(Request $request, PaginatorInterface $paginator)
     {
         $article = $this->getDoctrine()->getRepository(Article::class);
         $query = $article->findAll();
@@ -28,8 +28,18 @@ class ArticleController extends AbstractController
             5 /*limit per page*/
         );
 
-        // parameters to template
         return $this->render('article/list.html.twig', ['pagination' => $pagination]);
+    }
+
+    /**
+     * @Route("/article/{id}", name="article_id")
+     */
+    public function articleShow(Request $request, $id)
+    {
+        $articles = $this->getDoctrine()->getRepository(Article::class);
+        $article = $articles->find($id);
+
+        return $this->render('article/index.html.twig', ['article' => $article]);
     }
 
 
