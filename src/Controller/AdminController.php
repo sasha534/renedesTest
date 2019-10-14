@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Component\Pager\PaginatorInterface;
 
 class AdminController extends Controller
 {
@@ -51,7 +52,7 @@ class AdminController extends Controller
     /**
      * @Route("/cabinet/article/edit/{id}", name="article_edit")
      */
-    public function update($id)
+    public function updateArticle($id)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $article = $entityManager->getRepository(Article::class)->find($id);
@@ -68,6 +69,23 @@ class AdminController extends Controller
         return $this->redirectToRoute('article_show', [
             'id' => $article->getId()
         ]);
+    }
+
+    /**
+     * @Route("/admin-articles", name="articles_admin")
+     */
+    public function listArticle(Request $request, PaginatorInterface $paginator)
+    {
+        $article = $this->getDoctrine()->getRepository(Article::class);
+        $query = $article->findAll();
+
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            15
+        );
+
+        return $this->render('admin/articles-list.html.twig', ['pagination' => $pagination]);
     }
 
 
