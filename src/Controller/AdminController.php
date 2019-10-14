@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class AdminController extends Controller
 {
     /**
-     * @Route("/admin", name="admin")
+     * @Route("/cabinet", name="admin")
      */
     public function index()
     {
@@ -61,7 +61,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/article/edit/{id}", name="article_edit")
+     * @Route("/cabinet/article/edit/{id}", name="article_edit")
      */
     public function update($id)
     {
