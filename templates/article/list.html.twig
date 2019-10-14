@@ -5,14 +5,10 @@
 {% block body %}
     <div class="row">
         <div class="col-sm-12">
-            <h1>Manage Comments ({{ pagination.getTotalItemCount }})</h1>
-            <table class="table table-striped">
-                <tbody>
                 {% for article in pagination %}
-                    {{ article.id }}
+                    <h2 class="blog-post-title">{{ article.title }}</h2>
+                    <p>{{ article.content }}</p>
                 {% endfor %}
-                </tbody>
-            </table>
             {{ knp_pagination_render(pagination) }}
         </div>
     </div>
