@@ -46,6 +46,11 @@ class User extends BaseUser
         return $this->articles;
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
 
     public function addArticle(Article $article): self
     {
