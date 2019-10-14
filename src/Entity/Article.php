@@ -82,7 +82,7 @@ class Article
         return $this->user;
     }
 
-    public function setUserId(int $user): self
+    public function setUserId(?User $user): self
     {
         $this->user = $user;
 

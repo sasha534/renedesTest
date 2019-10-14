@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Form\Type\CreateArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Article;
@@ -11,8 +10,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class AdminController extends AbstractController
+class AdminController extends Controller
 {
     /**
      * @Route("/admin", name="admin")
@@ -29,15 +29,8 @@ class AdminController extends AbstractController
      */
     public function createArticle(Request $request, ValidatorInterface $validator)
     {
-        //$user = $this->container->get('security.token_storage')->getToken()->getUser();
-        //$user = $this->getUser()->getId();
-        //var_dump($user);die();
-        //$userID = $user->getId();
-
         $entityManager = $this->getDoctrine()->getManager();
-
         $article = new Article();
-
         $form = $this->createFormBuilder($article)
             ->add('title', TextType::class)
             ->add('content', TextType::class)
@@ -49,12 +42,9 @@ class AdminController extends AbstractController
         {
 
                 $article = $form->getData();
-
-//                $userID = $article->getUser();
-
                 $article->setTitle('Keyboard');
                 $article->setContent('SOme content 1111111111111111');
-                $article->setUserId($user);
+                $article->setUserId($this->getUser());
                 $entityManager->persist($article);
                 $entityManager->flush();
 
