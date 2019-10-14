@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 
 /**
@@ -10,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Article
 {
+    use TimestampableEntity;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -26,18 +28,6 @@ class Article
      * @ORM\Column(type="string", length=255)
      */
     private $content;
-
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     */
-    private $date_create;
-
-    /**
-     * @ORM\Column(type="datetime")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $date_update;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="articles")
