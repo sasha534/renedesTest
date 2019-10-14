@@ -170,8 +170,6 @@ h6, .h6 {
 /* stylelint-disable selector-no-qualifying-type, property-no-vendor-prefix */
 
 body {
-    padding-top: 40px;
-    padding-bottom: 40px;
     background-color: #eee;
 }
 
