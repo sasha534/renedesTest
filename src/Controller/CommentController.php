@@ -46,11 +46,19 @@ class CommentController extends AbstractController
             if (count($errors) > 0) {
                 return new Response((string) $errors, 400);
             }
-            return $this->redirectToRoute('article_success');
+            $this->addFlash('success', 'Comment Added!');
         }
 
         return $this->render('admin/new.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/article-comments", name="article_comments")
+     */
+    public function articleComments(Request $request, ValidatorInterface $validator)
+    {
+
     }
 }

@@ -12,11 +12,14 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Comment;
+use App\Form\Type\ArticleFormType;
 
 class AdminController extends Controller
 {
     /**
-     * @Route("/article-create", name="create_article")
+     * @Route("/admin/article-create", name="create_article")
      */
     public function createArticle(Request $request, ValidatorInterface $validator)
     {
@@ -41,7 +44,7 @@ class AdminController extends Controller
                     if (count($errors) > 0) {
                         return new Response((string) $errors, 400);
                     }
-            return $this->redirectToRoute('article_success');
+            $this->addFlash('success', 'Article Created! Success!');
         }
 
         return $this->render('admin/new.html.twig', [
@@ -50,37 +53,35 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/cabinet/article/edit/{id}", name="article_edit")
+     * @Route("/admin/article/{id}/edit", name="article_edit")
      */
-    public function updateArticle($id)
+    public function updateArticle(Article $article, Request $request, EntityManagerInterface $em)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $article = $entityManager->getRepository(Article::class)->find($id);
-
-        if (!$article) {
-            throw $this->createNotFoundException(
-                'No article found for id '.$id
-            );
+        $form = $this->createForm(ArticleFormType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Article $article */
+            $article = $form->getData();
+            $em->persist($article);
+            $em->flush();
+            $this->addFlash('success', 'Article Created! Knowledge is power!');
+            return $this->redirectToRoute('articles_admin');
         }
 
-        $article->setName('New article name!');
-        $entityManager->flush();
-
-        return $this->redirectToRoute('article_show', [
-            'id' => $article->getId()
+        return $this->render('admin/edit.html.twig', [
+            'articleForm' => $form->createView()
         ]);
     }
 
     /**
-     * @Route("/admin-articles", name="articles_admin")
+     * @Route("/admin/articles", name="articles_admin")
      */
-    public function listArticle(Request $request, PaginatorInterface $paginator)
+    public function listArticles(Request $request, PaginatorInterface $paginator)
     {
-        $article = $this->getDoctrine()->getRepository(Article::class);
-        $query = $article->findAll();
+        $articles = $this->getDoctrine()->getRepository(Article::class)->findAll();
 
         $pagination = $paginator->paginate(
-            $query,
+            $articles,
             $request->query->getInt('page', 1),
             15
         );
@@ -88,5 +89,37 @@ class AdminController extends Controller
         return $this->render('admin/articles-list.html.twig', ['pagination' => $pagination]);
     }
 
+    /**
+     * @Route("/admin/article/{id}/delete", name="articles_delete")
+     */
+    public function deleteArticle(int $id)
+    {
+        $comment = $this->getDoctrine()->getRepository(Comment::class)->find($id);
+
+        if ($comment === null) {
+            $comments = $this->getDoctrine()->getManager();
+            $comments->remove($comment);
+            $comments->flush();
+        }
+
+        $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
+
+        if (!$article) {
+            throw $this->createNotFoundException(sprintf(
+                'No programmer found with nickname "%s"',
+                $id
+            ));
+        }
+
+        if ($article) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($article);
+            $em->flush();
+        }
+
+        $this->addFlash('deleteArticle', 'L\'article was deleted');
+
+        return $this->redirectToRoute('articles_admin');
+    }
 
 }

@@ -1,4 +1,4 @@
-{% extends 'layout.html.twig' %}ц
+{% extends 'layout.html.twig' %}
 {% block title %}ALL ARTICLES{% endblock %}
 {% block body %}
     <div class="row">
@@ -7,22 +7,22 @@
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Header</th>
-                        <th>Header</th>
-                        <th>Header</th>
-                        <th>Header</th>
-                    </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Update</th>
+                            <th>Comments</th>
+                            <th>Delete</th>
+                        </tr>
                     </thead>
                     <tbody>
-                        {% for article in pagination %}
+                        {% for articles in pagination %}
                             <tr>
-                                <td>{{ article.id }}</td>
-                                <td>{{ article.title }}</td>
-                                <td><a hfer="{{ path('article_edit') }}">Update</a></td>
-                                <td><a hfer="{{ path('article_comments') }}">Comments</a></td>
-                                <td><a hfer="{{ path('article_delete') }}">Delete</a></td>
+                                <td>{{ articles.id }}</td>
+                                <td>{{ articles.title }}</td>
+                                <td><a href="{{ path('article_edit', { 'id' : articles.id|default('1') }) }}">Update</a></td>
+                                <td><a href="{{ path('article_comments') }}">Comments</a></td>
+                                <td><a href="{{ path('articles_delete', { 'id' : articles.id|default('1') }) }}">Delete</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
