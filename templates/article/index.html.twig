@@ -11,4 +11,27 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+            <div class="blog-post">
+                <h3> Comments: </h3>
+                {% for articles in pagination %}
+                    <pre>
+                        <h4>{{ article.title }}</h4>
+                        <p>{{ article.content }}</p>
+                    </pre>
+                {% endfor %}
+            </div>
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h4> Leave Your Comments: </h4>
+            {{ form(form) }}
+            {{ form_start(form, {'action': path('create_article'), 'method': 'GET'}) }}
+        </div>
+    </div>
 {% endblock %}

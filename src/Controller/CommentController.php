@@ -18,47 +18,20 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class CommentController extends AbstractController
 {
     /**
-     * @Route("/add-comment", name="add_comment")
-     */
-    public function addComment(Request $request, ValidatorInterface $validator)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $comment = new Comment();
-        $form = $this->createFormBuilder($comment)
-            ->add('authorName', TextType::class)
-            ->add('content', TextType::class)
-            ->add('save', SubmitType::class, array('label' => 'Save Comment'))
-            ->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid())
-        {
-
-            $comment = $form->getData();
-
-            $comment->setArticle($comment->getArticle());
-
-            $entityManager->persist($comment);
-            $entityManager->flush();
-
-            $errors = $validator->validate($comment);
-            if (count($errors) > 0) {
-                return new Response((string) $errors, 400);
-            }
-            $this->addFlash('success', 'Comment Added!');
-        }
-
-        return $this->render('admin/new.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/article-comments", name="article_comments")
      */
-    public function articleComments(Request $request, ValidatorInterface $validator)
+    public function articleComments(Request $request, PaginatorInterface $paginator)
     {
+        $comments = $this->getDoctrine()->getRepository(Comment::class);
+        $query = $comments->findAll();
+
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            5
+        );
+
+        return $this->render('comments/list.html.twig', ['pagination' => $pagination]);
 
     }
 }

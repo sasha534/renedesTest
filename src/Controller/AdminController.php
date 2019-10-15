@@ -16,7 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Comment;
 use App\Form\Type\ArticleFormType;
 
-class AdminController extends Controller
+class AdminController extends AbstractController
 {
     /**
      * @Route("/admin/article-create", name="create_article")
@@ -92,9 +92,10 @@ class AdminController extends Controller
     /**
      * @Route("/admin/article/{id}/delete", name="articles_delete")
      */
-    public function deleteArticle(int $id)
+    public function deleteArticle(Article $article, $id )
     {
-        $comment = $this->getDoctrine()->getRepository(Comment::class)->find($id);
+//        $id = $article_id;
+        $comment = $this->getDoctrine()->getRepository(Comment::class)->findAll($article);
 
         if ($comment === null) {
             $comments = $this->getDoctrine()->getManager();
