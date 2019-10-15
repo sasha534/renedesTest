@@ -28,7 +28,7 @@ class Comment
     private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="comment")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="comment", cascade={"persist"})
      */
     public $article;
 

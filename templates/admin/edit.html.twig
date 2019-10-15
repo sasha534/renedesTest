@@ -1,16 +1,21 @@
-{% extends 'content_base.html.twig' %}
-{% block content_body %}
-    <h1>Edit the Article! ?</h1>
-    {{ form_start(articleForm) }}
-    {{ form_row(articleForm.title, {
-        label: 'Article title'
-    }) }}
-    {{ form_row(articleForm.author) }}
-    {{ form_row(articleForm.content) }}
-    {{ form_row(articleForm.publishedAt) }}
-    <button type="submit" class="btn btn-primary">Update!</button>
-    {{ form_end(articleForm) }}
-    {{ include('article_admin/_form.html.twig', {
-        button_text: 'Update!'
-    }) }}
-{% endblock %}
+{% extends 'layout.html.twig' %}
+
+    {% block title %}<h1>Edit the Article! ?</h1>{% endblock %}
+
+        {% block body %}
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_start(articleForm) }}
+                    {{ form_row(articleForm.title, {
+                        label: 'Article title'
+                    }) }}
+
+                    {{ form_row(articleForm.content) }}
+                    <button type="submit" class="btn btn-primary">Update!</button>
+                    {{ form_end(articleForm) }}
+                    {{ include('admin/_form.html.twig', {
+                        button_text: 'Update!'
+                    }) }}
+                </div>
+            </div>
+        {% endblock %}

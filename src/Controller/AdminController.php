@@ -44,7 +44,9 @@ class AdminController extends AbstractController
                     if (count($errors) > 0) {
                         return new Response((string) $errors, 400);
                     }
-            $this->addFlash('success', 'Article Created! Success!');
+                $this->addFlash('success', 'Article Created! Success!');
+
+                return $this->redirectToRoute('create_article');
         }
 
         return $this->render('admin/new.html.twig', [
@@ -57,15 +59,16 @@ class AdminController extends AbstractController
      */
     public function updateArticle(Article $article, Request $request, EntityManagerInterface $em)
     {
-        $form = $this->createForm(ArticleFormType::class);
+        $form = $this->createForm(ArticleFormType::class, $article);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Article $article */
             $article = $form->getData();
             $em->persist($article);
             $em->flush();
-            $this->addFlash('success', 'Article Created! Knowledge is power!');
-            return $this->redirectToRoute('articles_admin');
+            return $this->render('admin/edit.html.twig', [
+                'articleForm' => $form->createView()
+            ]);
         }
 
         return $this->render('admin/edit.html.twig', [
@@ -76,6 +79,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/articles", name="articles_admin")
      */
+
     public function listArticles(Request $request, PaginatorInterface $paginator)
     {
         $id = $this->getUser() -> getId();
@@ -93,22 +97,15 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/article/{id}/delete", name="articles_delete")
      */
-    public function deleteArticle(Article $article, $id )
+
+    public function deleteArticle(Article $article)
     {
-        $comment = $this->getDoctrine()->getRepository(Comment::class)->findAll($article);
-
-        if ($comment === null) {
-            $comments = $this->getDoctrine()->getManager();
-            $comments->remove($comment);
-            $comments->flush();
-        }
-
-        $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
+        $article = $this->getDoctrine()->getRepository(Article::class)->find($article);
 
         if (!$article) {
             throw $this->createNotFoundException(sprintf(
                 'No programmer found with nickname "%s"',
-                $id
+                $article
             ));
         }
 
@@ -117,6 +114,15 @@ class AdminController extends AbstractController
             $em->remove($article);
             $em->flush();
         }
+
+        $comment = $this->getDoctrine()->getRepository(Comment::class)->findBy(['article_id' => $article]);
+
+        if ($comment === null) {
+            $comments = $this->getDoctrine()->getManager();
+            $comments->remove($comment);
+            $comments->flush();
+        }
+
 
         $this->addFlash('deleteArticle', 'L\'article was deleted');
 
