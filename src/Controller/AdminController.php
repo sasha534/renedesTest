@@ -78,7 +78,8 @@ class AdminController extends AbstractController
      */
     public function listArticles(Request $request, PaginatorInterface $paginator)
     {
-        $articles = $this->getDoctrine()->getRepository(Article::class)->findAll();
+        $id = $this->getUser() -> getId();
+        $articles = $this->getDoctrine()->getRepository(Article::class)->findBy(['user' => $id]);
 
         $pagination = $paginator->paginate(
             $articles,
@@ -94,7 +95,6 @@ class AdminController extends AbstractController
      */
     public function deleteArticle(Article $article, $id )
     {
-//        $id = $article_id;
         $comment = $this->getDoctrine()->getRepository(Comment::class)->findAll($article);
 
         if ($comment === null) {
