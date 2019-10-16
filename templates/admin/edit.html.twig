@@ -5,17 +5,8 @@
         {% block body %}
             <div class="row">
                 <div class="col-sm-12">
-                    {{ form_start(articleForm) }}
-                    {{ form_row(articleForm.title, {
-                        label: 'Article title'
-                    }) }}
-
-                    {{ form_row(articleForm.content) }}
-                    <button type="submit" class="btn btn-primary">Update!</button>
-                    {{ form_end(articleForm) }}
-                    {{ include('admin/_form.html.twig', {
-                        button_text: 'Update!'
-                    }) }}
+                    {{ form(articleForm) }}
+                    {{ form_start(articleForm, {'action': path('create_article'), 'method': 'GET'}) }}
                 </div>
             </div>
         {% endblock %}

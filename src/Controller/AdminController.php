@@ -115,7 +115,7 @@ class AdminController extends AbstractController
             $em->flush();
         }
 
-        $comment = $this->getDoctrine()->getRepository(Comment::class)->findBy(['article_id' => $article]);
+        $comment = $this->getDoctrine()->getRepository(Comment::class)->findBy(['article_id' => $article->getId()]);
 
         if ($comment === null) {
             $comments = $this->getDoctrine()->getManager();
@@ -123,8 +123,7 @@ class AdminController extends AbstractController
             $comments->flush();
         }
 
-
-        $this->addFlash('deleteArticle', 'L\'article was deleted');
+        //$this->addFlash('deleteArticle', 'L\'article was deleted');
 
         return $this->redirectToRoute('articles_admin');
     }

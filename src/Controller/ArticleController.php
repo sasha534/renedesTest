@@ -52,10 +52,7 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-
             $entityManager = $this->getDoctrine()->getManager();
-
-
 
             $comment->setArticle($article);
 
@@ -82,6 +79,5 @@ class ArticleController extends AbstractController
 
         return $this->render('article/index.html.twig', ['article' => $article, 'pagination' => $pagination, 'form' => $form->createView()]);
     }
-
 
 }

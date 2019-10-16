@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
 class ArticleFormType extends AbstractType
@@ -16,12 +17,7 @@ class ArticleFormType extends AbstractType
     {
         $builder->add('title', TextType::class)
                 ->add('content', TextType::class)
-                ->add('reply', EntityType::class, [
-                        'class' => User::class,
-                        'choice_label' => 'username',
-                        'label' => 'label.reply_to'
-                        ]);
-
+                ->add('save', SubmitType::class, array('label' => 'Update Article'));
     }
 
     public function configureOptions(OptionsResolver $resolver)

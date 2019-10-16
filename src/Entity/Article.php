@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 
 /**
@@ -38,6 +39,21 @@ class Article
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="article_id")
      */
     private $comment;
+
+    private $arayCollection;
+
+    public function __construct()
+    {
+        $this->arayCollection = new ArrayCollection();
+    }
+
+    /**
+     * @return ArrayCollection|Article[]
+     */
+    public function getArrayCollection()
+    {
+        return $this->arayCollection;
+    }
 
     public function getComment(): ?Comment
     {
