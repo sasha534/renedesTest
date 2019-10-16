@@ -1,13 +1,15 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Hello ArticleController!{% endblock %}
+{% block title %}Articles{% endblock %}
 
 {% block body %}
     <div class="row">
         <div class="col-sm-12">
                 {% for article in pagination %}
-                    <h2 class="blog-post-title">{{ article.title }}</h2>
-                    <p>{{ article.content }}</p>
+                    <a href="{{ path('article_show', { 'id' : article.id }) }}"/>
+                        <h2 class="blog-post-title">{{ article.title }}</h2>
+                        <p>{{ article.content }}</p>
+                    </a>
                 {% endfor %}
             {{ knp_pagination_render(pagination) }}
         </div>

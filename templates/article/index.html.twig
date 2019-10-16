@@ -26,12 +26,13 @@
             {{ knp_pagination_render(pagination) }}
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-            <h4> Leave Your Comments: </h4>
-            {{ form(form) }}
-            {{ form_start(form, {'action': path('create_article'), 'method': 'GET'}) }}
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <div class="row">
+            <div class="col-sm-12">
+                <h4> Leave Your Comments: </h4>
+                {{ form(form) }}
+                {{ form_start(form, {'action': path('create_article'), 'method': 'GET'}) }}
+            </div>
         </div>
-    </div>
+    {% endif %}
 {% endblock %}

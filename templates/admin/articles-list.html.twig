@@ -20,9 +20,9 @@
                             <tr>
                                 <td>{{ articles.id }}</td>
                                 <td>{{ articles.title }}</td>
-                                <td><a href="{{ path('article_edit', { 'id' : articles.id|default('1') }) }}">Update</a></td>
+                                <td><a href="{{ path('article_edit', { 'id' : articles.id }) }}">Update</a></td>
                                 <td><a href="{{ path('article_comments') }}">Comments</a></td>
-                                <td><a href="{{ path('articles_delete', { 'id' : articles.id|default('1') }) }}">Delete</a></td>
+                                <td><a href="{{ path('articles_delete', { 'id' : articles.id }) }}">Delete</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
